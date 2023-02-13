@@ -9,10 +9,14 @@ start = ws['A1']
 start.value = "OnD"
 start.alignment = Alignment(horizontal="center", vertical="center")
 
-thin = Side(border_style="thin", color="000000")
+medium = Side(border_style="medium", color="000000")
 
-
+#от до
 ws.merge_cells('A5:B9')
+ws['A5'].alignment = Alignment(horizontal="center", vertical="center")
+ws['A5'] = input("введине направление ")
+
+#стыковка
 ws.merge_cells('C5:C9')
 
 
@@ -45,6 +49,7 @@ ws.column_dimensions['I'].width = 15
 ws.merge_cells('J3:J4')
 ws['J3'] = 'время полета'
 ws.column_dimensions['J'].width = 15
+
 
 wb.save('otchet.xlsx')
 wb.close()
