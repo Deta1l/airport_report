@@ -9,7 +9,6 @@ start = ws['A1']
 start.value = "OnD"
 start.alignment = Alignment(horizontal="center", vertical="center")
 
-medium = Side(border_style="medium", color="000000")
 
 #от до
 ws.merge_cells('A5:B9')
