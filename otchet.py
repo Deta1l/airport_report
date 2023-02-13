@@ -5,7 +5,12 @@ outputf = "otchet.xlsx"
 wb = load_workbook(outputf)
 ws = wb['Лист1']
 
-ws['A6'] = 'Отчет стыковок'
+
+
+
+ws.merge_cells('B2:F4')
+ws['b2'] = 'Отчет стыковок'
+
 
 
 
