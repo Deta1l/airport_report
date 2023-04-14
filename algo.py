@@ -9,49 +9,40 @@ schedule_xlsx  = 'data\Schedule_LT.xlsx'
 
 wb = load_workbook(schedule_xlsx)
 
+answer = {}
+city = []
+
 ws = wb.active
 m_row = ws.max_row
 
-for i in range(1, m_row + 1):
+for i in range(2, m_row + 1):
     cell_obj = ws.cell(row = i, column = 2)
-    print(cell_obj.value)
+    if cell_obj.value not in city:
+        city.append(cell_obj.value)
+
+        for a in range(2, m_row + 1):
+            cell_obj1 = ws.cell(row = a, column = 2)
+            if cell_obj1.value == cell_obj.value:
+                g1 = ws.cell(row = a, column = 4)
+                answer[cell_obj.value]=[g1.value]
+                break
+        
+        for a in range(2, m_row + 1):
+            cell_obj1 = ws.cell(row = a, column = 2)
+            if cell_obj1.value == cell_obj.value:
+                g1 = ws.cell(row = a, column = 4)
+                answer[cell_obj.value].append(g1.value)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-def dfs(graph, start, end, n, path=None):
-    if path is None:
-        path = []
+def dfs_paths(graph, n, start, goal, path=[], count=0):
     path = path + [start]
-    if start == end or len(path) == n:
-        return [path]
-    paths = []
-    for node in graph[start]:
-        if node not in path:
-            new_paths = dfs(graph, node, end, n, path)
-            for new_path in new_paths:
-                paths.append(new_path)
-    return paths
+    if start == goal and len(path) <= n+2:
+        print(path)
+        return
+    
+    for next_node in graph[start]:
+        if next_node not in path:
+            dfs_paths(graph, n, next_node, goal, path, count+1)
 
 
 graph = {'a':['b'],
@@ -60,9 +51,10 @@ graph = {'a':['b'],
     
 }
 
-start = 'a'
-end = 'c'
-n = 4
+start = 'KQT'
+end = 'OSS'
+n = 3
 
-print(dfs(graph, start, end, n+2))
-'''
+dfs_paths(answer, n , start, end, [], 0)
+
+print("finish")
