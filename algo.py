@@ -53,8 +53,10 @@ graph = {'a':['b'],
 
 start = 'KQT'
 end = 'OSS'
-n = 3
+n = 2
 
 dfs_paths(answer, n , start, end, [], 0)
 
 print("finish")
+
+wb.close()
