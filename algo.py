@@ -70,7 +70,7 @@ for i in range(2, m_row + 1):
     time_2 = dt.strptime(str(cell_obj1.value),"%H:%M:%S")
 
     time_interval = time_2 - time_1
-    print(time_interval)
+    print(time_interval.strftime("%H:%M:%S"))
 
 
 wb.close()
