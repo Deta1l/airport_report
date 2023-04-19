@@ -55,11 +55,22 @@ start = 'KQT'
 end = 'OSS'
 n = 2
 
-dfs_paths(answer, n , start, end, [], 0)
+#dfs_paths(answer, n , start, end, [], 0)
 
 print("finish")
 
 print("-----------------------------")
+
+from datetime import datetime as dt 
+
+for i in range(2, m_row + 1):
+    cell_obj = ws.cell(row = i, column = 3)
+    cell_obj1 = ws.cell(row = i, column = 5)
+    time_1 = dt.strptime(str(cell_obj.value),"%H:%M:%S")
+    time_2 = dt.strptime(str(cell_obj1.value),"%H:%M:%S")
+
+    time_interval = time_2 - time_1
+    print(time_interval)
 
 
 wb.close()
