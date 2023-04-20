@@ -1,5 +1,6 @@
 from openpyxl.styles import Border, Side, PatternFill, Font, GradientFill, Alignment
 from openpyxl import Workbook, load_workbook, open
+from datetime import datetime
 
 wb = Workbook()
 
@@ -137,8 +138,10 @@ for one_route in route:
                 ws.cell(row = lines_number, column = 5, value = flite_dates)
                 ws.cell(row = lines_number, column = 6, value = flight_reg)
             
-                dep = flight_nomber = ws1.cell(row = i, column = 3) #ВЫВОД
-                arr = flight_nomber = ws1.cell(row = i, column = 5) #ВЫВОД
+                dep = ws1.cell(row = i, column = 3) #ВЫВОД
+                arr = ws1.cell(row = i, column = 5) #ВЫВОД
+
+                print(arr.value - dep.value)
 
                 ws.cell(row = lines_number, column = 7, value = dep.value)
                 ws.cell(row = lines_number, column = 8, value = arr.value)
@@ -146,8 +149,7 @@ for one_route in route:
                 lines_number+=1
                 #длительность стыковыки 0, посчитать время полета
 
-                #for col in ws.iter_cols(min_row=5, min_col=4, max_row=5, max_col=10):
-                #    for cell in col:
+         
 
 
 
@@ -156,29 +158,6 @@ for one_route in route:
 print("finish")
 
 wb1.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 wb.save('otchet.xlsx')
