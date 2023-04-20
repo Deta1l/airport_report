@@ -21,7 +21,7 @@ ws['A5'].alignment = Alignment(horizontal="center", vertical="center")
 #ws['A5'] = input("введине направление ")
 
 #стыковка
-ws.merge_cells('C5:C9')
+
 
 
 ws.merge_cells('C2:J2')
@@ -122,8 +122,7 @@ lines_number = 5
 for one_route in route:
  
     if len(one_route) == 2:
-        ws['C5'].alignment = Alignment(horizontal="center", vertical="center")
-        ws['C5'] = 'Direct Flight'
+        ws.cell(row = lines_number, column = 3, value = 'Direct Flight')
         start_airport = one_route[0]
         end_airport = one_route[1]
         for i in range(2, m_row + 1):
@@ -141,8 +140,6 @@ for one_route in route:
                 dep = ws1.cell(row = i, column = 3) #ВЫВОД
                 arr = ws1.cell(row = i, column = 5) #ВЫВОД
 
-                
-
                 ws.cell(row = lines_number, column = 7, value = dep.value)
                 ws.cell(row = lines_number, column = 8, value = arr.value)
                 ws.cell(row = lines_number, column = 9, value = 0)
@@ -154,8 +151,12 @@ for one_route in route:
                 ws.cell(row = lines_number, column = 10, value = time_interval)
      
 
-                lines_number+=1
+                lines_number+=5
                 #длительность стыковыки 0, посчитать время полета
+    else:
+        ws.cell(row = lines_number, column = 3, value = time_interval) #через что летим
+        start_airport = one_route[0]
+        end_airport = one_route[1]
 
 
 
