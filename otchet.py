@@ -1,6 +1,6 @@
 from openpyxl.styles import Border, Side, PatternFill, Font, GradientFill, Alignment
 from openpyxl import Workbook, load_workbook, open
-from datetime import datetime
+from datetime import datetime as dt 
 
 wb = Workbook()
 
@@ -37,7 +37,7 @@ ws['D3'] = '№ рейсов'
 ws.column_dimensions['D'].width = 15
 ws.merge_cells('E3:E4')
 ws['E3'] = 'период'
-ws.column_dimensions['E'].width = 15
+ws.column_dimensions['E'].width = 35
 ws.merge_cells('F3:F4')
 ws['F3'] = 'дни недели'
 ws.column_dimensions['F'].width = 15
@@ -141,17 +141,21 @@ for one_route in route:
                 dep = ws1.cell(row = i, column = 3) #ВЫВОД
                 arr = ws1.cell(row = i, column = 5) #ВЫВОД
 
-                print(arr.value - dep.value)
+                
 
                 ws.cell(row = lines_number, column = 7, value = dep.value)
                 ws.cell(row = lines_number, column = 8, value = arr.value)
                 ws.cell(row = lines_number, column = 9, value = 0)
+                
+                time_1 = dt.strptime(str(arr.value),"%H:%M:%S")
+                time_2 = dt.strptime(str(dep.value),"%H:%M:%S")
+
+                time_interval = time_1 - time_2 
+                ws.cell(row = lines_number, column = 10, value = time_interval)
+     
+
                 lines_number+=1
                 #длительность стыковыки 0, посчитать время полета
-
-         
-
-
 
 
 
