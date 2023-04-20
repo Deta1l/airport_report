@@ -31,7 +31,7 @@ s7.alignment = Alignment(horizontal="center", vertical="center")
 
 ws.merge_cells('C3:C4')
 ws['C3'] = 'Город стыковки'
-ws.column_dimensions['C'].width = 15
+ws.column_dimensions['C'].width = 35
 ws.merge_cells('D3:D4')
 ws['D3'] = '№ рейсов'
 ws.column_dimensions['D'].width = 15
@@ -105,8 +105,8 @@ def dfs_paths(graph, n, start, goal, path=[], count=0):
             dfs_paths(graph, n, next_node, goal, path, count+1)
 
 
-start = 'OVB'
-end = 'EVN'
+start = 'KZN'
+end = 'OVB'
 n = 2
 
 dfs_paths(answer, n , start, end, [], 0)
@@ -118,6 +118,7 @@ print("finish")
 #--------------------------------вывод
 
 lines_number = 5
+
 
 for one_route in route:
  
@@ -151,12 +152,16 @@ for one_route in route:
                 ws.cell(row = lines_number, column = 10, value = time_interval)
      
 
-                lines_number+=5
+                lines_number+=1
                 #длительность стыковыки 0, посчитать время полета
     else:
-        ws.cell(row = lines_number, column = 3, value = time_interval) #через что летим
-        start_airport = one_route[0]
-        end_airport = one_route[1]
+        ws.cell(row = lines_number, column = 3, value = str(one_route)) #через что летим
+
+        for aiport in one_route:
+            #ws.cell(row = lines_number, column = 3, value = time_interval) #через что летим
+            start_airport = one_route[0]
+            end_airport = one_route[1]
+        lines_number+=1
 
 
 

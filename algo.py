@@ -1,5 +1,58 @@
 from openpyxl.styles import Border, Side, PatternFill, Font, GradientFill, Alignment
-from openpyxl import load_workbook, open
+from openpyxl import Workbook, load_workbook, open
+from datetime import datetime as dt 
+
+wb = Workbook()
+
+schedule_xlsx = open('data\Schedule_LT.xlsx', read_only=True) 
+print(schedule_xlsx)
+
+ws = wb.active
+
+ws.merge_cells('A1:B4')
+start = ws['A1']
+start.value = "OnD"
+start.alignment = Alignment(horizontal="center", vertical="center")
+
+
+#от до
+ws.merge_cells('A5:B9')
+ws['A5'].alignment = Alignment(horizontal="center", vertical="center")
+#ws['A5'] = input("введине направление ")
+
+#стыковка
+
+
+
+ws.merge_cells('C2:J2')
+s7 = ws['C2']
+s7.value = "S7"
+s7.alignment = Alignment(horizontal="center", vertical="center")
+
+ws.merge_cells('C3:C4')
+ws['C3'] = 'Город стыковки'
+ws.column_dimensions['C'].width = 35
+ws.merge_cells('D3:D4')
+ws['D3'] = '№ рейсов'
+ws.column_dimensions['D'].width = 15
+ws.merge_cells('E3:E4')
+ws['E3'] = 'период'
+ws.column_dimensions['E'].width = 35
+ws.merge_cells('F3:F4')
+ws['F3'] = 'дни недели'
+ws.column_dimensions['F'].width = 15
+ws.merge_cells('G3:G4')
+ws['G3'] = 'вылет'
+ws.column_dimensions['G'].width = 15
+ws.merge_cells('H3:H4')
+ws['H3'] = 'прилет'
+ws.column_dimensions['H'].width = 15
+ws.merge_cells('I3:I4')
+ws['I3'] = 'время стык'
+ws.column_dimensions['I'].width = 15
+ws.merge_cells('J3:J4')
+ws['J3'] = 'время полета'
+ws.column_dimensions['J'].width = 15
 
 
 #schedule_xlsx = open('data\Schedule_LT.xlsx', read_only=True) 
@@ -52,14 +105,8 @@ def dfs_paths(graph, n, start, goal, path=[], count=0):
             dfs_paths(graph, n, next_node, goal, path, count+1)
 
 
-graph = {'a':['b'],
-         'b':['a', 'c', 'c', 'c'],
-         'c':['b', 'b', 'b']
-    
-}
-
-start = 'OVB'
-end = 'EVN'
+start = 'KZN'
+end = 'OVB'
 n = 2
 
 dfs_paths(answer, n , start, end, [], 0)
@@ -67,20 +114,62 @@ print(route)
 
 print("finish")
 
-'''
-
-from datetime import datetime as dt 
-
-for i in range(2, m_row + 1):
-    cell_obj = ws.cell(row = i, column = 3)
-    cell_obj1 = ws.cell(row = i, column = 5)
-    time_1 = dt.strptime(str(cell_obj.value),"%H:%M:%S")
-    time_2 = dt.strptime(str(cell_obj1.value),"%H:%M:%S")
-    time_interval = time_2 - time_1
-    #print(time_interval)
-'''
 
 #--------------------------------вывод
 
+lines_number = 5
+
+
+for one_route in route:
+ 
+    if len(one_route) == 2:
+        ws.cell(row = lines_number, column = 3, value = 'Direct Flight')
+        start_airport = one_route[0]
+        end_airport = one_route[1]
+        for i in range(2, m_row + 1):
+            cell_obj = ws1.cell(row = i, column = 2)
+            cell_obj1 = ws1.cell(row = i, column = 4)
+            if (start_airport == cell_obj.value) and (end_airport == cell_obj1.value):
+                flight_number = ws1.cell(row = i, column = 1) #ВЫВОД
+                ws.cell(row = lines_number, column = 4, value = flight_number.value)
+                date1 = ws1.cell(row = i, column = 6)
+                date1 = str(date1.value)
+                flite_dates, flight_reg = date1.split()  #2ВЫВОД
+                ws.cell(row = lines_number, column = 5, value = flite_dates)
+                ws.cell(row = lines_number, column = 6, value = flight_reg)
+            
+                dep = ws1.cell(row = i, column = 3) #ВЫВОД
+                arr = ws1.cell(row = i, column = 5) #ВЫВОД
+
+                ws.cell(row = lines_number, column = 7, value = dep.value)
+                ws.cell(row = lines_number, column = 8, value = arr.value)
+                ws.cell(row = lines_number, column = 9, value = 0)
+                
+                time_1 = dt.strptime(str(arr.value),"%H:%M:%S")
+                time_2 = dt.strptime(str(dep.value),"%H:%M:%S")
+
+                time_interval = time_1 - time_2 
+                ws.cell(row = lines_number, column = 10, value = time_interval)
+     
+
+                lines_number+=1
+                #длительность стыковыки 0, посчитать время полета
+    else:
+        ws.cell(row = lines_number, column = 3, value = str(one_route)) #через что летим
+
+        for aiport in one_route:
+            #ws.cell(row = lines_number, column = 3, value = time_interval) #через что летим
+            start_airport = one_route[0]
+            end_airport = one_route[1]
+        lines_number+=1
+
+
+
+print("finish")
 
 wb1.close()
+
+
+wb.save('otchet.xlsx')
+wb.close()
+print("отчет готов!")
