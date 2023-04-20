@@ -120,6 +120,7 @@ print("finish")
 lines_number = 5
 
 
+
 for one_route in route:
  
     if len(one_route) == 2:
