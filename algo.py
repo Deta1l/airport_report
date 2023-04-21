@@ -119,6 +119,7 @@ print("finish")
 
 lines_number = 5
 
+route = [list(x) for x in dict.fromkeys(tuple(x) for x in route)]
 
 
 for one_route in route:
