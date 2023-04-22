@@ -5,6 +5,7 @@ from datetime import datetime as dt
 wb = Workbook()
 
 schedule_xlsx = open('data\Schedule_LT.xlsx', read_only=True) 
+
 print(schedule_xlsx)
 
 ws = wb.active
@@ -34,7 +35,7 @@ ws['C3'] = 'Город стыковки'
 ws.column_dimensions['C'].width = 35
 ws.merge_cells('D3:D4')
 ws['D3'] = '№ рейсов'
-ws.column_dimensions['D'].width = 15
+ws.column_dimensions['D'].width = 55
 ws.merge_cells('E3:E4')
 ws['E3'] = 'период'
 ws.column_dimensions['E'].width = 35
@@ -106,11 +107,11 @@ def dfs_paths(graph, n, start, goal, path=[], count=0):
 
 
 start = 'KZN'
-end = 'OVB'
+end = 'DME'
 n = 2
 
 dfs_paths(answer, n , start, end, [], 0)
-print(route)
+
 
 print("finish")
 
@@ -158,12 +159,48 @@ for one_route in route:
                 #длительность стыковыки 0, посчитать время полета
     else:
         ws.cell(row = lines_number, column = 3, value = str(one_route)) #через что летим
+        flights = []
+        start = 0
 
-        for aiport in one_route:
-            #ws.cell(row = lines_number, column = 3, value = time_interval) #через что летим
-            start_airport = one_route[0]
-            end_airport = one_route[1]
-        lines_number+=1
+        for i in range(len(one_route)-1):
+            start_airport = one_route[i]
+            end_airport = one_route[i+1]
+            for i in range(2, m_row + 1):
+                cell_obj = ws1.cell(row = i, column = 2)
+                cell_obj1 = ws1.cell(row = i, column = 4)
+                if (start_airport == cell_obj.value) and (end_airport == cell_obj1.value):
+                    flight_number = ws1.cell(row = i, column = 1) #ВЫВОД
+                    flights.append(flight_number.value)
+                    date1 = ws1.cell(row = i, column = 6)
+                    date1 = str(date1.value)
+                    flite_dates, flight_reg = date1.split()  #2ВЫВОД
+                    dep = ws1.cell(row = i, column = 3) #ВЫВОД
+                    arr = ws1.cell(row = i, column = 5) #ВЫВОД
+                    time_1 = dt.strptime(str(arr.value),"%H:%M:%S")
+                    time_2 = dt.strptime(str(dep.value),"%H:%M:%S")
+
+                    time_interval = time_1 - time_2 
+                    
+            for a in range(3, mct_row + 1):
+                airport = mct_ws.cell(row = a, column = 2)
+                if end_airport == airport.value:
+                    timer = mct_ws.cell(row = a, column = 4)
+                    ws.cell(row = lines_number, column = 9, value = timer.value)
+
+      
+            ws.cell(row = lines_number, column = 4, value = str(flights))
+            ws.cell(row = lines_number, column = 5, value = '-')
+            ws.cell(row = lines_number, column = 6, value = '-')
+                
+
+            ws.cell(row = lines_number, column = 7, value = '-')
+            ws.cell(row = lines_number, column = 8, value = '-')
+            
+                    
+
+            ws.cell(row = lines_number, column = 10, value = '-')
+            del flights[:]
+            lines_number+=1
 
 
 
