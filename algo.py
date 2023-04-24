@@ -4,6 +4,7 @@ from datetime import datetime as dt
 
 wb = Workbook()
 
+#input stsrt here
 schedule_xlsx = open('data\Schedule_LT.xlsx', read_only=True) 
 
 print(schedule_xlsx)
@@ -56,7 +57,7 @@ ws['J3'] = 'время полета'
 ws.column_dimensions['J'].width = 15
 
 
-#schedule_xlsx = open('data\Schedule_LT.xlsx', read_only=True) 
+#input stsrt here
 
 mct_gruz = 'data\MCT_груз.xlsx'
 schedule_xlsx1  = 'data\Schedule_LT.xlsx'
@@ -93,24 +94,32 @@ for i in range(2, m_row + 1):
                 answer[cell_obj.value].append(g1.value)
 
 
-def dfs_paths(graph, n, start, goal, path=[], count=0):
+def dfs_paths(graph, n, start, goal, thrue, path=[], count=0):
     path = path + [start]
 
     if start == goal and len(path) <= n+2:
-        route.append(path)
+        f = 0
+        for i in thrue:
+            if i not in path:
+                f += 1
+        if f == 0:
+            route.append(path)
         return
     
     for next_node in graph[start]:
         if next_node not in path:
             #проверка на время + время стоянки
-            dfs_paths(graph, n, next_node, goal, path, count+1)
+            dfs_paths(graph, n, next_node, goal, thrue , path, count+1)
 
 
+#input stsrt here
 start = 'KZN'
 end = 'DME'
+Thru = ['OSS']
 n = 2
 
-dfs_paths(answer, n , start, end, [], 0)
+#input end here
+dfs_paths(answer, n , start, end,Thru, [], 0)
 
 
 print("finish")
