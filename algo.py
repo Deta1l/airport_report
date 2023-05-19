@@ -113,9 +113,9 @@ def dfs_paths(graph, n, start, goal, thrue, path=[], count=0):
 
 
 #input stsrt here
-start = 'KZN'
+start = 'OSS'
 end = 'DME'
-Thru = ['OSS']
+Thru = ['KZN']
 n = 2
 
 #input end here
@@ -165,7 +165,7 @@ for one_route in route:
      
 
                 lines_number+=1
-                #длительность стыковыки 0, посчитать время полета
+                
     else:
         ws.cell(row = lines_number, column = 3, value = str(one_route)) #через что летим
         flights = []
